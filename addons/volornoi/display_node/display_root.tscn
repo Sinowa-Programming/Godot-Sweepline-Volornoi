@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwo7wo01cpkr"]
+
+[ext_resource type="Script" path="res://addons/volornoi/display_node/display_root.gd" id="1_dr53c"]
+
+[node name="display_root2" type="Node2D"]
+script = ExtResource("1_dr53c")
