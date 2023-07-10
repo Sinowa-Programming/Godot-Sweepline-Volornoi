@@ -89,7 +89,7 @@ func poisson(_min_radius : float, tries : int, img_size : Array) -> Array
 * If you have a low number of points ( > 5 ), an issue could appear when creating the polygons.
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](insert/link/here/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/LICENSE) file for details.
 
 ## Todo
 
