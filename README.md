@@ -1,4 +1,4 @@
-# Sweepline Volornoi for Godot
+# Godot-Sweepline-Volornoi
 
 A Godot 4.X addon that generates and displays a volornoi diagram using a port of my implementation of [Fortone's sweepline algorithm](https://en.wikipedia.org/wiki/Fortune%27s_algorithm).
 
