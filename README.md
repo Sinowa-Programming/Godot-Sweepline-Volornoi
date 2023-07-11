@@ -18,7 +18,7 @@ Image of polygon display
 ## Operation through scripts
 You can generate a volornoi diagram through code using this plugin.\
 All examples taken from Example.gd
-* To call the poisson (phusdo-random point generation) algorithm:
+* To call the poisson (pseudo-random point generation) algorithm:
 ```GDScript
 var points = Volornoi.poisson(radius, tries, size)	# Create the points
 ```
