@@ -11,7 +11,7 @@ Image of polygon display
 ## Features
 
 * Can generate a svg file for quick loopup of cells
-* Generates the polygons along with a nearest-neighbor graph that is used as an Astar2D
+* Generates the polygons along with a nearest-neighbor graph
 * Generated to a rectangular field
 * Consistant cell coloring
 
