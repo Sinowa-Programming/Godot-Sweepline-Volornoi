@@ -2,11 +2,9 @@
 
 A Godot 4.X addon that generates and displays a volornoi diagram using a port of my implementation of [Fortone's sweepline algorithm](https://en.wikipedia.org/wiki/Fortune%27s_algorithm).
 
-## Examples
-* walking_example.tscn
+## Example Results
 Image of shader display
 ![Image of shader display](link/to/image "Volornoi image using Colormap Button")
-Image of Polygon Display
 ![Image of Polygon Display](link/to/image "Volornoi image using Polygon Button")
 
 ## Features
