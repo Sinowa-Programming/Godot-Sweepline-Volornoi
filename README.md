@@ -81,7 +81,12 @@ Poisson Algorithm
 ```GDScript
 func poisson(_min_radius : float, tries : int, img_size : Array) -> Array
 ```
-
+Simple Outline Shader
+```GLSL
+uniform float radius; # Only intergers
+uniform vec4 border_color;
+uniform sampler2D lookupDiagram;
+```
 
 ## Known Bugs
 * If you have a low number of points ( > 5 ), an issue could appear when creating the polygons.
