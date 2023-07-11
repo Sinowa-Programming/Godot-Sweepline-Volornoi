@@ -5,6 +5,7 @@ A Godot 4.X addon that generates and displays a volornoi diagram using a port of
 ## Example Results
 Image of shader display
 ![Image of shader display](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/images/shader_display_example.png)
+Image of polygon display
 ![Image of Polygon Display](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/images/polygon_display_example.png)
 
 ## Features
