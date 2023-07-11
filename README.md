@@ -47,6 +47,7 @@ var out_dict = Volornoi.volornoi(points, size)	# Create the diagram
 ### Process Points
 
 #### step 1
+You can:
 * Don't toggle anything
 * toggle **'Generate a color lookup diagram'** button
 * toggle **'Create Polygon Cells (Experimental)'** button
@@ -57,7 +58,7 @@ var out_dict = Volornoi.volornoi(points, size)	# Create the diagram
 #### step 3
 * If **'Generate a color lookup diagram'** is toggled an svg image will be saved. The svg image will be used for the lookup diagram and also for the simple shader that displays the cells.
 * The diagram should have child polygon nodes to the Volornoi node if **'Create Polygon Cells (Experimental)'** is toggled.
-* If you never selected either then nothing will be displayed. 
+* If you never selected either then nothing will be displayed, but the data will be stored in the colormap and graph variables of the volornoi_map node. You can then reload the diagram, without any processing, later.
 
 ### Additional Features
 * You can save the diagram to a json file using the **'Save Selected Diagram'**
