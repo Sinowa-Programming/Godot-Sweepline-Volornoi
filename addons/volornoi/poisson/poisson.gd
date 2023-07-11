@@ -9,7 +9,6 @@ var cell_height : int
 var min_radius : float
 
 func execute(_min_radius : float, k : int, img_size : Array) -> Array:
-	print("Min Radius: ", _min_radius)
 	return process(_min_radius, k, img_size)
 
 #calculate the distance between 2 points
