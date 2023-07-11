@@ -70,7 +70,6 @@ var out_dict = Volornoi.volornoi(points, size)	# Create the diagram
 
 ## Notes
 * Due to the nature of geometry, there are many edge cases that occur while using this algorithm. Edges cases are rare and if they happen, slightly move the problem site 1 or 2 pixels. If possible, please also open a github issue with the problem point list, so I can resolve the edge case.
-* The plugin only works with a custom node. I plan to rewrite the plugin to allow for easy access to the sweepline and point placement algorithms through an autoload.
 * While there may be errors in regards to invalid polygon data, the result should be fine.
 
 ## Data Structures
