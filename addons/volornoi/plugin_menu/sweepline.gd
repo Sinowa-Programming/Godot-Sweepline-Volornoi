@@ -238,6 +238,11 @@ func is_point_on_ray(ray, point, ray_dir) -> bool:
 	Returns:
 	True if the point is on the ray, False otherwise.
 	"""
+	
+	#edge case if the start of the ray == the point
+	if dist(ray[0], point) < .0001:
+		return true
+	
 	#ray_length = max(size) * 2  #makes sure the raylength exceeds the bounding boxes and passes any exterior ray collisions
 	var ray_length = max(size[0], size[1]) * 2.0  #makes sure the raylength exceeds the bounding boxes and passes any exterior ray collisions
 	if ray[1][1] == 0:  #if the ray's slope is zero
@@ -532,8 +537,9 @@ func addArc(target_site) -> void:
 					siteCounter += 1
 					leans = extendAtIndex(leans, ["idk"], edgeIdx)   #add the lean
 					
-					if beachline[beachIdx+2] not in root:
-						CheckCircleEvent(beachIdx+2)  #index of site to the right
+					#if self.beachline[beachIdx+2] not in self.root:
+					#if self.beachline[beachIdx+2]:
+					CheckCircleEvent(beachIdx+2)  #index of site to the right
 					
 					CheckCircleEvent(beachIdx-2)#index of site to the left. If there is no site it will return None
 					
@@ -795,9 +801,9 @@ func removeArc(siteIdx : int) -> void:
 
 	#create a floor collision if any of the site pairs are root
 	if site in root:
-		if left_site in root:
+		if left_site in root and beachline[beachSiteIdx-1] == [-1,-1]:
 			beachline[beachSiteIdx-1] = [(0-b1)/m1, 0]   #floor Collision
-		if right_site in root: 
+		if right_site in root and beachline[beachSiteIdx+1] == [-1,-1]: 
 			beachline[beachSiteIdx+1] = [(0-b2)/m2, 0]   #floor Collision
 	
 	var x = float((b1-b2)/(m2-m1))

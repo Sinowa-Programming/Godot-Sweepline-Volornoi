@@ -426,3 +426,13 @@ func _on_clear_points_confirmation_confirmed():
 func _on_spin_box_value_changed(value):
 	display_root.set_radius(int(value))
 	display_root.queue_redraw()
+
+# Line Width
+func _on_line_spin_box_value_changed(value):
+	display_root.set_line_width(value)
+	display_root.queue_redraw()
+
+
+func _on_show_graph_toggled(button_pressed):
+	display_root.render_graph = button_pressed
+	display_root.queue_redraw()

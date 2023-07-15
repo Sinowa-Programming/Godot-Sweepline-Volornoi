@@ -6,6 +6,7 @@ extends Node2D
 
 
 var plugin_menu
+var line_width = 2	# The width of the line
 var radius = 10	# The point radius
 var border = 2	# The point border
 var selection_radius = 15
@@ -13,12 +14,15 @@ var dragging := false
 var point_being_dragged	# Read the name dude/dudet
 var size_marker := Vector2()
 var size_marker_being_dragged
-
+var render_graph := true	#flag to render graph
 
 func set_radius(_radius : int):
 	radius = _radius
 	border = floor(radius/5)
 	selection_radius = radius + 5
+
+func set_line_width(width : float):
+	line_width = width
 
 
 func check_for_selection(mouse_pos : Vector2) -> bool:	# Checks if any points are selected if so return true
@@ -73,7 +77,16 @@ func _draw():
 	if plugin_menu.active_node != null:
 		# Draw size box
 		var size = plugin_menu.active_node.size
-		draw_rect(Rect2(plugin_menu.active_node.position, Vector2(size[0], size[1])), Color(255,0,0), false, 2)
+		draw_rect(Rect2(plugin_menu.active_node.position, Vector2(size[0], size[1])), Color(255,0,0), false, line_width)
+		
+		#draw the nearest-neighbor graph
+		if render_graph and plugin_menu.active_node.graph.size() > 0:
+			var graph = plugin_menu.active_node.graph
+			for start_loc in graph:
+				var destinations = graph[start_loc]
+				for destination in destinations:
+					# The destinations are a point array so you need to convert it to Vector2.
+					draw_line(start_loc, Vector2( destination[0], destination[1] ), Color8(0, 0, 255), line_width)
 		
 		var p_lst = [] + plugin_menu.active_node.point_list
 		# Draw points
@@ -96,3 +109,5 @@ func _draw():
 			if !size_marker_being_dragged:
 				draw_circle(size_marker, radius, Color("#2F67FF"))	# Outer | I am using a hex color code for this line as the rgb wouldn't work without a restart
 				draw_circle(size_marker, radius-border, Color("#FFFFFF"))	# Inner
+		
+
