@@ -72,6 +72,7 @@ You can:
 ## Notes
 * Due to the nature of geometry, there are many edge cases that occur while using this algorithm. Edges cases are rare and if they happen, slightly move the problem site 1 or 2 pixels. If possible, please also open a github issue with the problem point list, so I can resolve the edge case.
 * While there may be errors in regards to invalid polygon data, the result should be fine.
+* Errors with polygon generation occur if there are points too close together due to computer floating point inprecision.
 
 ## Data Structures
 Sweepline Algorithm
@@ -95,8 +96,6 @@ uniform sampler2D lookupDiagram;
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/LICENSE) file for details.
 
 ## Todo
-
-* [ ] Draw connectivity graph
 * [ ] Real time graph update
 * [ ] Add code documentation
 
