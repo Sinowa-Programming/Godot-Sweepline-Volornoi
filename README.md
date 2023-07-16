@@ -92,7 +92,7 @@ uniform sampler2D lookupDiagram;
 ```
 
 ## Known Bugs
-* Godot may crash if you try to turn a large amount of volornoi cells into polygon nodes.
+* Godot may crash if you try to turn a large amount of volornoi cells into polygon nodes. ~2000 cells
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/LICENSE) file for details.
