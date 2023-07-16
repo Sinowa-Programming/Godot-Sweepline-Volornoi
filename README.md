@@ -73,6 +73,7 @@ You can:
 * Due to the nature of geometry, there are many edge cases that occur while using this algorithm. Edges cases are rare and if they happen, slightly move the problem site 1 or 2 pixels. If possible, please also open a github issue with the problem point list, so I can resolve the edge case.
 * While there may be errors in regards to invalid polygon data, the result should be fine.
 * Errors with polygon generation occur if there are points too close together due to computer floating point inprecision.
+* Godot may crash if you try to turn a large amount of volornoi cells into polygon nodes.
 
 ## Data Structures
 Sweepline Algorithm
