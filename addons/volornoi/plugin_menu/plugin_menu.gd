@@ -16,6 +16,7 @@ extends Control
 @onready var generate_polygons := $rootContainer/mainOperations/operationsList/generatePolygons
 @onready var generate_color_map := $rootContainer/mainOperations/operationsList/generateColorMap
 @onready var outline_shader = preload("res://addons/volornoi/volornoi_node/simple_outliner.gdshader")
+@onready var volornoi_node = preload("res://addons/volornoi/volornoi_node/volornoi.tscn")
 
 # flags
 var edit_mode := false
@@ -25,7 +26,7 @@ var save_file_flag := false
 
 # internal variables
 var active_node = null	# The volornoi node to be operated on
-#var volornoi	# The volornoi processing c# script instance
+var volornoi	# The volornoi processing c# script instance
 #var volornoi_script	# The script that does the heavy calculations
 var volornoi_util	# The file that has miscalanois functions that are used in this script 
 var display_root = null	# This is a refrence to the display node
@@ -34,21 +35,22 @@ var id_table = {}	# A dictionary that contains every point and their color. Is r
 var rand_seed = 0	# Used to generate a random color
 #var duplicate_min_range = 10	# will not allow a point placed closer than this value to any other point
 var file_location	# For saving the svg file
-#var poisson	# Poisson point generation
+var poisson	# Poisson point generation
 
 
 
 func _ready() -> void:
 	file_dialog.set_filters(PackedStringArray(["*.svg ; Svg Images",]))	# Filter out non svg files
-	#volornoi_script = preload("res://addons/volornoi/plugin_menu/sweepline.gd")
-	#volornoi = volornoi_script.new()
+	var volornoi_script = preload("res://addons/volornoi/plugin_menu/sweepline.gd")
+	volornoi = volornoi_script.new()
 	var volornoi_util_script = preload("res://addons/volornoi/plugin_menu/volornoi_util.gd")
 	volornoi_util = volornoi_util_script.new()
-	#var poisson_script = preload("res://addons/volornoi/poisson/poisson.gd")
-	#poisson = poisson_script.new()
+	var poisson_script = preload("res://addons/volornoi/poisson/poisson.gd")
+	poisson = poisson_script.new()
 
 func _on_active_node_changed(new_active_node) -> void:
-	if new_active_node is volornoiMap:
+	# If the node has this list of variables then it is an volornoi node
+	if "point_list" in new_active_node and "color_map" in new_active_node and "size" in new_active_node and "graph" in new_active_node:
 		active_node = new_active_node
 		operations_list.visible = true
 		if len(active_node.color_map) > 0:
@@ -86,7 +88,8 @@ func _on_new_node_pressed() -> void:
 		display_root.owner = get_tree().get_edited_scene_root().get_parent()
 		main_plugin.display_root = display_root
 	
-	active_node = volornoiMap.new()
+	active_node = volornoi_node.instantiate()
+	active_node.point_list = []	# Its nil for some reason when instantiated
 	get_tree().get_edited_scene_root().add_child(active_node)
 	active_node.owner = get_tree().get_edited_scene_root()
 	active_node.name = "Volornoi"
@@ -183,7 +186,7 @@ func _on_file_dialog_file_selected(path) -> void:
 func compute() -> void:
 	var graph = {}	# Stores a graph to be used in aStar navigation
 	if !active_node.point_list.is_empty():
-		var dict = Volornoi.volornoi(active_node.point_list, active_node.size)	# Access the Volornoi autload
+		var dict = volornoi.execute(active_node.point_list, active_node.size)	# Access the Volornoi autload
 		for site in dict:
 			var pl = PackedVector2Array()
 			var polygonArr = dict[site][0]	# Dict[site][1] contains the cell neighbors
@@ -391,7 +394,7 @@ func _on_poisson_enter_pressed():
 	var tries = poisson_settings.get_node("tries/SpinBox").value	#called k in the algorithm
 	
 	# generate the points
-	var new_points = Volornoi.poisson(radius, tries, active_node.size)
+	var new_points = poisson.execute(radius, tries, active_node.size)
 	
 	#print("Writing Data to active node...")
 	# add the points to the active node
