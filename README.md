@@ -92,6 +92,7 @@ uniform sampler2D lookupDiagram;
 ```
 
 ## Known Bugs
+* The volornoi node will misfunction if a root node.
 * Godot may crash if you try to turn a large amount of volornoi cells into polygon nodes. ~2000 cells
 ## License
 
