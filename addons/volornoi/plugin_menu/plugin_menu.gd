@@ -128,8 +128,8 @@ func insert_point(x,y) -> void:
 		push_warning("Point is outside of max size or is negative! Please change size or move point location and try again!")
 	
 	# Warning of point placement that almost touches the borderline of y = 0
-	if y < 50:
-		push_warning("Warning: Placing the point so close to the edge may create undesirable results")
+#	if y < 50:
+#		push_warning("Warning: Placing the point so close to the edge may create undesirable results")
 
 
 func edit_point(pnt, pos) -> void:
