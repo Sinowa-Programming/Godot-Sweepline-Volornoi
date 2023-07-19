@@ -377,7 +377,7 @@ func rayIntersection(leftEdgeIdx, rightEdgeIdx):
 	
 	
 	var point = [x,y]
-	##print("point: ", point)
+	#print("point: ", point)
 	
 	#if a lean is idk then the lean is a root. funcine their lean here.
 	if llean == "idk":
@@ -446,7 +446,7 @@ func CheckCircleEvent(focus_site_idx : int) -> void:
 		if circumcenter[1] + radius < (sweepline - .001) or (left_arc in root and beachline[focus_site_idx] in root and right_arc in root and circumcenter[1] < 0):
 			return
 		#e = Event(self.siteLst[focus_site_idx//2], 1, circumcenter[1] + radius, self.beachline[focus_site_idx]) #create a new circle event
-		##print("Sweepline to be added: ", circumcenter[1] + radius)
+		#print("Sweepline to be added: ", circumcenter[1] + radius)
 		var e : event = event.new(siteLst[floor(focus_site_idx/2.0)], 1, float(circumcenter[1] + radius), beachline[focus_site_idx]) #create a new circle event
 		eventQueue.add(e)
 
@@ -484,7 +484,7 @@ func site_intersect(site1 : Array, site2 : Array, sweepline : float, lean : Stri
 	#return intersections
 
 func addArc(target_site) -> void:
-	#print("target site: ", target_site)
+	print("target site: ", target_site)
 	# find the parabola that the target site intersects
 	var chosen_site = [0] #index of the chosen_site
 	var largest_y : float = -1.0
@@ -506,7 +506,7 @@ func addArc(target_site) -> void:
 	completed_pnts = null
 	
 	if largest_y < 0: #no arcs were collided with
-		#print("No Arcs Collided with")
+		print("No Arcs Collided with")
 		#var siteIdx = 0
 		# a = [-1,-1]
 		# b = target_site
@@ -557,14 +557,14 @@ func addArc(target_site) -> void:
 
 	
 	elif len(chosen_site) > 1:  #if the target site is on the intersection between two other arcs
-		#print("Special intersection")
+		print("Special intersection")
 		
 		var a = beachline[chosen_site[1]]
 		var b = target_site
 		var c = beachline[chosen_site[0]]
 		
-		#print("Chosen Site A: ", a)
-		#print("Chosen Site C: ", c)
+		print("Chosen Site A: ", a)
+		print("Chosen Site C: ", c)
 		# remove event that completes parabolas for the chosen sites( if present )
 		#aSiteId = self.siteLst[chosen_site[1]//2]
 		var aSiteId = siteLst[floor(chosen_site[1]/2.0)]
@@ -661,7 +661,7 @@ func addArc(target_site) -> void:
 
 		#self.leans[edgeIdx:edgeIdx] = [aLean,cLean]
 		leans = extendAtIndex(leans, [aLean,cLean], edgeIdx)
-		#print("Add Arc")
+		print("Add Arc")
 		CheckCircleEvent(chosen_site[1])  #index of a
 		CheckCircleEvent(chosen_site[1] + 4)  #index of c
 	
@@ -692,7 +692,7 @@ func addArc(target_site) -> void:
 					siteIdx = beachIdx
 					break
 		
-		#print("Chosen Site: ", site)
+		print("Chosen Site: ", site)
 		# remove event that completes parabola for the chosen site( if present )
 		#siteId = self.siteLst[siteIdx//2]
 		var siteId = siteLst[floor(siteIdx/2.0)]
@@ -738,7 +738,7 @@ func addArc(target_site) -> void:
 		
 		#self.leans[edgeIdx:edgeIdx] = ["l","r"]
 		leans = extendAtIndex(leans, ["l","r"], edgeIdx)
-		#print("Add Arc")
+		print("Add Arc")
 		CheckCircleEvent(siteIdx)  #index of a
 		CheckCircleEvent(siteIdx + 4)  #index of c
 
@@ -748,7 +748,7 @@ func removeArc(siteIdx : int) -> void:
 	var siteLstIdx = self.siteLst.find(siteIdx)
 	var beachSiteIdx = siteLstIdx * 2
 	var site = beachline[beachSiteIdx]    #i need to grab the correct site
-	#print("Removing: ", site)
+	print("Removing: ", site)
 	var left_site = beachline[beachSiteIdx-2]
 	var right_site = beachline[beachSiteIdx+2]
 
@@ -808,7 +808,7 @@ func removeArc(siteIdx : int) -> void:
 	
 	var x = float((b1-b2)/(m2-m1))
 	var circumcenter = [x, m1*x+b1]    #y = mx + b | The intersection point between the two equations.
-	#print("Circumcenter: ", circumcenter)
+	print("Circumcenter: ", circumcenter)
 	
 	var pos = beachSiteIdx - 1
 	#edgePos = pos//2
@@ -870,7 +870,7 @@ func removeArc(siteIdx : int) -> void:
 			leans.insert(edgePos, "DNE")   #stands for 'Does Not Exist'
 	
 	elif circumcenter[0] > size[0]:    #right boundary
-		#print("Right Intersection")
+		print("Right Intersection")
 		left_edge = [beachline[beachSiteIdx-1], [size[0], m1*size[0] + b1]]
 		right_edge = [beachline[beachSiteIdx+1], [size[0], m2*size[0] + b2]]
 		#If there is a ceiling collision then the program is completed and there is no need to compute the rest
@@ -923,10 +923,10 @@ func removeArc(siteIdx : int) -> void:
 			leans.insert(edgePos, "DNE")   #stands for 'Does Not Exist'
 			
 	elif circumcenter[1] > size[1] :#or circumcenter[1] < 0:    #ceiling/floor collision. I decided to add this on instead of editing for now until I can do more testing
-		#print("Ceiling limit passed")
+		print("Ceiling limit passed")
 		return
 	elif circumcenter[1] < 0:   #floor collision
-		#print("floor limit passed")
+		print("floor limit passed")
 		###NOTICE###
 		#this edge case fix assumes that the collision is occuring between two roots and 1 non-root point that caused the intersection. The point is also between the two root points <- The last sentence may not be nessasary
 		var center_site = []
@@ -938,6 +938,7 @@ func removeArc(siteIdx : int) -> void:
 		#the point that each edge collides with the floor of y=0
 		#for a floor collision to happen, at least two sites has to be root. Use the non-root site to determine the two floor collision points
 		if left_site in root:
+			print("Left site")
 			#the right site is the non-root site
 			center_site = right_site
 			#generate perpendicular equation between left and right sites for the left site collision
@@ -969,12 +970,13 @@ func removeArc(siteIdx : int) -> void:
 			#self.cells[tuple(right_site)][1].append(center_site)
 			cells[tuple(center_site)][1].append(site)
 		elif right_site in root:
+			print("Right site")
 			#the left site is the non-root site
 			center_site = left_site
 			#generate perpendicular equation between left and right sites for the left site collision
 			#slope 1 x and y
-			s2x = (right_site[1]-center_site[1])
-			s2y = -(right_site[0]-center_site[0])    #has to be negative for the creation of a perpendicular slope
+			s2x = float(right_site[1]-center_site[1])
+			s2y = float(-(right_site[0]-center_site[0]))    #has to be negative for the creation of a perpendicular slope
 			#get the first perpendicular equation
 			midpoint2 = midpoint(right_site, center_site)
 			if s2x != 0:
@@ -987,6 +989,8 @@ func removeArc(siteIdx : int) -> void:
 			#center_site = left_site
 			#add a gap closing edge to the non-root site
 			#self.cells[tuple(center_site)][0].append([lFloorPnt, rFloorPnt])
+			print("beachline: ", beachline)
+			print("beachSiteIdx: ", beachSiteIdx)
 			left_edge = [beachline[beachSiteIdx-1], lFloorPnt]
 			right_edge = [beachline[beachSiteIdx+1], rFloorPnt]
 			
@@ -1062,7 +1066,7 @@ func removeArc(siteIdx : int) -> void:
 		#self.siteLst[edgePos:edgePos] = [self.siteCounter] #only a new edge is being created. Why am I adding a new site ID?
 		#self.siteCounter += 1
 		#calculate lean of edge based on last edges
-		if lEdgeDir == rEdgeDir:    #like: r facing edge + right facing edge = right facing edge. Vise versa for left
+		if lEdgeDir == rEdgeDir and (lEdgeDir != "idk" and rEdgeDir != "idk"):    #like: r facing edge + right facing edge = right facing edge. Vise versa for left
 			#self.leans[edgePos:edgePos] = [lEdgeDir]
 			leans = extendAtIndex(leans ,[lEdgeDir], edgePos)
 		else:
@@ -1096,7 +1100,7 @@ func removeArc(siteIdx : int) -> void:
 	cells[tuple(right_site)][1].append(site)
 	cells[tuple(site)][1].append_array([left_site, right_site])
 	
-	#print("Remove Arc")
+	print("Remove Arc")
 
 var root := []  #contains every edge that is collides with the borderline/floor
 var beachline := []   # beachline in form [site0, edge0, site1, edge1]
@@ -1124,15 +1128,15 @@ func generate() -> void:
 	# set all of the sites as site events in the queue
 	for point in pointLst:
 		eventQueue.queue.append(event.new(-1, 0, point[1], point))
-	#print("------------------")
-	#print("Size: ", size)
-	#print("------------------")
+	print("------------------")
+	print("Size: ", size)
+	print("------------------")
 	while ( len(eventQueue.queue) > 0):  # run while the event queue is not empty
-		#print("======================================")
-		#print("Beachline before: ", beachline)
+		print("======================================")
+		print("Beachline before: ", beachline)
 		var nextEvent = eventQueue.pop()
 		sweepline = nextEvent.priority
-		#print("Sweepline: ", sweepline)
+		print("Sweepline: ", sweepline)
 		if nextEvent.type == 0:
 			# site event
 			#add to beachline
@@ -1142,11 +1146,11 @@ func generate() -> void:
 			#remove from beachline
 			removeArc(nextEvent.siteIdx)
 	
-		#print("Beachline after: ", beachline)
+		print("Beachline after: ", beachline)
 	
 	#close final edges
 	for edgeIdx in range(1,len(beachline), 2):
-		#print(edgeIdx)
+		print(edgeIdx)
 		#if self.leans[edgeIdx//2] != "DNE":
 		if leans[floor(edgeIdx/2.0)] != "DNE":
 			if beachline[edgeIdx] == [-1, -1] and len(beachline)-1 == edgeIdx:
@@ -1183,6 +1187,9 @@ func generate() -> void:
 			else:
 				b1 = float(midpoint[1] - m1*midpoint[0])
 			
+			if edgeIdx == 7:
+				print("")
+			
 			var endPoint	#godot specific
 			if edgeLean == "l":
 				endPoint = [0, m1*0 + b1]   #collision with left boundary
@@ -1198,6 +1205,8 @@ func generate() -> void:
 					endPoint = [(0-b1)/m1, 0]   #floor Collision
 			
 			var edge = [midpoint, endPoint]
+			print("Edge: ", edge)
+			
 			#close the edges and add them to their respective edge list
 			cells[tuple(left_site)][0].append(edge)
 			cells[tuple(right_site)][0].append(edge)
@@ -1207,11 +1216,11 @@ func generate() -> void:
 			cells[tuple(right_site)][1].append(left_site)
 			
 		
-	#print("Final Beachline: ", self.beachline)
+	print("Final Beachline: ", self.beachline)
 	
 	#turn all edgelist into polygons!
 	for cell_name in cells:
-		#print(str(cell_name) + " | Edges | ", cells[cell_name][0])
+		print(str(cell_name) + " | Edges | ", cells[cell_name][0])
 		orderEdges(cell_name)
 		#I am thinking about having corner handling out here. Just add the one point to the end of the polygon list
 	

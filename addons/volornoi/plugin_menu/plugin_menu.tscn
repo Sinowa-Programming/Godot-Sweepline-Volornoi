@@ -103,6 +103,11 @@ layout_mode = 2
 button_pressed = true
 text = "Show Graph"
 
+[node name="draw_diagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+text = "Real Time Graph
+Update"
+
 [node name="EditDiagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
 tooltip_text = "Controls if you can add or remove points. If off you can't add or remove."
@@ -201,6 +206,7 @@ horizontal_alignment = 1
 [connection signal="value_changed" from="rootContainer/mainOperations/operationsList/pointSize/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="value_changed" from="rootContainer/mainOperations/operationsList/line_width/SpinBox" to="." method="_on_line_spin_box_value_changed"]
 [connection signal="toggled" from="rootContainer/mainOperations/operationsList/show_graph" to="." method="_on_show_graph_toggled"]
+[connection signal="toggled" from="rootContainer/mainOperations/operationsList/draw_diagram" to="." method="_on_draw_diagram_toggled"]
 [connection signal="toggled" from="rootContainer/mainOperations/operationsList/EditDiagram" to="." method="_on_edit_diagram_toggled"]
 [connection signal="pressed" from="rootContainer/poissonSettings/HBoxContainer/Enter" to="." method="_on_poisson_enter_pressed"]
 [connection signal="pressed" from="rootContainer/poissonSettings/HBoxContainer/Cancel" to="." method="_on_poisson_cancel_pressed"]

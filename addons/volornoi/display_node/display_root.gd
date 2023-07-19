@@ -16,6 +16,9 @@ var size_marker := Vector2()
 var size_marker_being_dragged
 var render_graph := true	#flag to render graph
 
+func _ready():
+	z_index = RenderingServer.CANVAS_ITEM_Z_MAX - 1	# Place the drawing on top of every other object
+
 func set_radius(_radius : int):
 	radius = _radius
 	border = floor(radius/5)
@@ -110,4 +113,10 @@ func _draw():
 				draw_circle(size_marker, radius, Color("#2F67FF"))	# Outer | I am using a hex color code for this line as the rgb wouldn't work without a restart
 				draw_circle(size_marker, radius-border, Color("#FFFFFF"))	# Inner
 		
+		# Real time graph update
+		if plugin_menu.diagram_draw_flag and plugin_menu.active_node.color_map.size() > 3:
+			# Update the graph
+			for color_name in plugin_menu.active_node.color_map:
+				var cell = plugin_menu.active_node.color_map[color_name]
+				draw_colored_polygon(cell[2], Color8(color_name[0], color_name[1], color_name[2]))
 
