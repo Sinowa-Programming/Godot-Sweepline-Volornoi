@@ -784,9 +784,9 @@ func removeArc(siteIdx : int) -> void:
 	var midpoint1 = midpoint(site, left_site)
 	var m1 : float	#godot specific
 	if s1x != 0:
-		m1 = s1y/s1x
+		m1 = float(s1y/s1x)
 	else:
-		m1 = 1000000000# the more zeros the more accurate as it is a vertical line
+		m1 = 1000000000.0# the more zeros the more accurate as it is a vertical line
 	var b1 = float(midpoint1[1] - m1*midpoint1[0])
 
 	#get the second perpendicular equation
@@ -794,17 +794,17 @@ func removeArc(siteIdx : int) -> void:
 	var midpoint2 = midpoint(site, right_site)
 	var m2 : float # godot specific
 	if s2x != 0:
-		m2 = s2y/s2x
+		m2 = float(s2y/s2x)
 	else:
-		m2 = 1000000000# the more zeros the more accurate as it is a vertical line
+		m2 = 1000000000.0# the more zeros the more accurate as it is a vertical line
 	var b2 = float(midpoint2[1] - m2*midpoint2[0])
 
 	#create a floor collision if any of the site pairs are root
 	if site in root:
 		if left_site in root and beachline[beachSiteIdx-1] == [-1,-1]:
-			beachline[beachSiteIdx-1] = [(0-b1)/m1, 0]   #floor Collision
+			beachline[beachSiteIdx-1] = [float((0-b1)/m1), 0]   #floor Collision
 		if right_site in root and beachline[beachSiteIdx+1] == [-1,-1]: 
-			beachline[beachSiteIdx+1] = [(0-b2)/m2, 0]   #floor Collision
+			beachline[beachSiteIdx+1] = [float((0-b2)/m2), 0]   #floor Collision
 	
 	var x = float((b1-b2)/(m2-m1))
 	var circumcenter = [x, m1*x+b1]    #y = mx + b | The intersection point between the two equations.
@@ -938,6 +938,7 @@ func removeArc(siteIdx : int) -> void:
 		#the point that each edge collides with the floor of y=0
 		#for a floor collision to happen, at least two sites has to be root. Use the non-root site to determine the two floor collision points
 		if left_site in root:
+			#print("Left site")
 			#the right site is the non-root site
 			center_site = right_site
 			#generate perpendicular equation between left and right sites for the left site collision
@@ -968,13 +969,15 @@ func removeArc(siteIdx : int) -> void:
 			cells[tuple(site)][1].append(center_site)
 			#self.cells[tuple(right_site)][1].append(center_site)
 			cells[tuple(center_site)][1].append(site)
+		
 		elif right_site in root:
+			#print("Right site")
 			#the left site is the non-root site
 			center_site = left_site
 			#generate perpendicular equation between left and right sites for the left site collision
 			#slope 1 x and y
-			s2x = (right_site[1]-center_site[1])
-			s2y = -(right_site[0]-center_site[0])    #has to be negative for the creation of a perpendicular slope
+			s2x = float(right_site[1]-center_site[1])
+			s2y = float(-(right_site[0]-center_site[0]))    #has to be negative for the creation of a perpendicular slope
 			#get the first perpendicular equation
 			midpoint2 = midpoint(right_site, center_site)
 			if s2x != 0:
@@ -987,6 +990,8 @@ func removeArc(siteIdx : int) -> void:
 			#center_site = left_site
 			#add a gap closing edge to the non-root site
 			#self.cells[tuple(center_site)][0].append([lFloorPnt, rFloorPnt])
+			#print("beachline: ", beachline)
+			#print("beachSiteIdx: ", beachSiteIdx)
 			left_edge = [beachline[beachSiteIdx-1], lFloorPnt]
 			right_edge = [beachline[beachSiteIdx+1], rFloorPnt]
 			
@@ -1062,7 +1067,7 @@ func removeArc(siteIdx : int) -> void:
 		#self.siteLst[edgePos:edgePos] = [self.siteCounter] #only a new edge is being created. Why am I adding a new site ID?
 		#self.siteCounter += 1
 		#calculate lean of edge based on last edges
-		if lEdgeDir == rEdgeDir:    #like: r facing edge + right facing edge = right facing edge. Vise versa for left
+		if lEdgeDir == rEdgeDir and (lEdgeDir != "idk" and rEdgeDir != "idk"):    #like: r facing edge + right facing edge = right facing edge. Vise versa for left
 			#self.leans[edgePos:edgePos] = [lEdgeDir]
 			leans = extendAtIndex(leans ,[lEdgeDir], edgePos)
 		else:
@@ -1198,6 +1203,8 @@ func generate() -> void:
 					endPoint = [(0-b1)/m1, 0]   #floor Collision
 			
 			var edge = [midpoint, endPoint]
+			#print("Edge: ", edge)
+			
 			#close the edges and add them to their respective edge list
 			cells[tuple(left_site)][0].append(edge)
 			cells[tuple(right_site)][0].append(edge)
