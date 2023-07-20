@@ -13,5 +13,3 @@ material = SubResource("ShaderMaterial_dgtw8")
 centered = false
 script = ExtResource("2_ty5cl")
 point_list = null
-color_map = null
-generate_astar = null

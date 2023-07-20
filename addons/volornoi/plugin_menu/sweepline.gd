@@ -954,10 +954,12 @@ func removeArc(siteIdx : int) -> void:
 			b1 = float(midpoint1[1] - m1*midpoint1[0])
 			lFloorPnt = [(-b1)/m1, 0]   #floor Collision
 			rFloorPnt = [(-b2)/m2, 0]   #site and right_site floor Collision
+			circumcenter = lFloorPnt
 			
 			#add a gap closing edge to the non-root site
 			#self.cells[tuple(center_site)][0].append([lFloorPnt, rFloorPnt])
-			left_edge = [beachline[beachSiteIdx-1], lFloorPnt]
+			#left_edge = [beachline[beachSiteIdx-1], lFloorPnt]
+			left_edge = [lFloorPnt, rFloorPnt]
 			right_edge = [beachline[beachSiteIdx+1], rFloorPnt]
 			
 			#add the edges to their respective edge list
@@ -987,13 +989,15 @@ func removeArc(siteIdx : int) -> void:
 			b2 = float(midpoint2[1] - m2*midpoint2[0])
 			lFloorPnt = [(-b1)/m1, 0]   #site and left_site floor Collision
 			rFloorPnt = [(-b2)/m2, 0]   #floor Collision
+			circumcenter = rFloorPnt
 			#center_site = left_site
 			#add a gap closing edge to the non-root site
 			#self.cells[tuple(center_site)][0].append([lFloorPnt, rFloorPnt])
 			#print("beachline: ", beachline)
 			#print("beachSiteIdx: ", beachSiteIdx)
 			left_edge = [beachline[beachSiteIdx-1], lFloorPnt]
-			right_edge = [beachline[beachSiteIdx+1], rFloorPnt]
+			#right_edge = [beachline[beachSiteIdx+1], rFloorPnt]
+			right_edge = [lFloorPnt, rFloorPnt]
 			
 			#add the edges to their respective edge list
 			cells[tuple(site)][0].append(left_edge)

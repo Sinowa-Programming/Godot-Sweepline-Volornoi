@@ -1,5 +1,4 @@
 @tool
-class_name volornoiMap
 extends Node2D
 ## Volornoi Diagram.
 ## The variables size and pointlist are nessasary for the generation,

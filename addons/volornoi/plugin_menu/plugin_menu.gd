@@ -23,6 +23,7 @@ var edit_mode := false
 var compute_flag := false
 var load_file_flag := false
 var save_file_flag := false
+var diagram_draw_flag := true
 
 # internal variables
 var active_node = null	# The volornoi node to be operated on
@@ -104,8 +105,12 @@ func _on_editor_input(mouse_pos) -> void:
 	if edit_mode and active_node != null:
 		#insert the point to the point list if possible
 		insert_point(mouse_pos.x, mouse_pos.y)
+		
+		if diagram_draw_flag:
+			compute(true)
 
-func insert_point(x,y) -> void:
+# The quick variable is for mass insertion. It won't redraw after every insertion
+func insert_point(x,y, quick : bool = false) -> void:
 	# Makes sure the point is in side of the set size
 	if (x < active_node.size[0] and 0 < x) and (y < active_node.size[1] and 0 < y):
 		var pnt = [round(x), round(y)]
@@ -121,7 +126,8 @@ func insert_point(x,y) -> void:
 		active_node.color_map[color] = [active_node.id_num, Vector2(pnt[0],pnt[1]), []]
 		id_table[pnt] = color
 		active_node.point_list.append(pnt)
-		display_root.queue_redraw()
+		if not quick:
+			display_root.queue_redraw()
 		rand_seed = rand_gen.randi()	# Change the random value so the same number is not regenerated
 		active_node.id_num += 1
 	else:
@@ -142,14 +148,21 @@ func edit_point(pnt, pos) -> void:
 		# Update the id table's point
 		id_table.erase(pnt)
 		id_table[rounded_pos] = color
-		display_root.queue_redraw()
+		if diagram_draw_flag:
+			compute(true)
+		else:
+			display_root.queue_redraw()
 	else:
-		push_warning("Point is outside of max size or is negative! Please change size or move point location and try again!")
+		if diagram_draw_flag:
+			display_root.point_being_dragged = pnt
+		push_warning("Point is outside of max size or is negative or is overlapping another point! Please change size or move point location and try again!")
 
 func remove_point(pnt) -> void:
 	active_node.point_list.erase(pnt)
 	active_node.color_map.erase( id_table[pnt] )
 	id_table.erase(pnt)
+	if diagram_draw_flag:
+		compute(true)
 
 
 func clear_active_node() -> void:
@@ -183,7 +196,8 @@ func _on_file_dialog_file_selected(path) -> void:
 		reload_diagram()
 
 # Generates the volornoi diagram
-func compute() -> void:
+# Quick update is the flag that allows for the generation of the graph without the processing of files or nodes
+func compute(quick_update : bool = false) -> void:
 	var graph = {}	# Stores a graph to be used in aStar navigation
 	if !active_node.point_list.is_empty():
 		var dict = volornoi.execute(active_node.point_list, active_node.size)	# Access the Volornoi autload
@@ -195,29 +209,33 @@ func compute() -> void:
 			var color = id_table[[site.x, site.y]]
 			active_node.color_map[ color ][2] = pl
 			graph[site] = dict[site][1]
+			# Store the graph for Astar generation
+			if active_node.generate_astar:
+				active_node.graph = graph
+		
+		if quick_update:
+			save_load_operations_list.visible = true
+			display_root.queue_redraw()
+		else:
+			if generate_color_map.button_pressed:	# If generate colorMap is enabled
+				# Set the image as the activeNode's lookup diagram
+				saveAsSvg()
+				# imports the image lossessly and allows for the shader to work correctly
+				var image = Image.new()
+				image = Image.load_from_file(file_location)
+				image.convert(Image.FORMAT_RGBA8)
+				active_node.lookup_diagram = image
+				active_node.material.set_shader_parameter("lookupDiagram", ImageTexture.create_from_image(image))
 			
-		if generate_color_map.button_pressed:	# If generate colorMap is enabled
-			# Set the image as the activeNode's lookup diagram
-			saveAsSvg()
-			# imports the image lossessly and allows for the shader to work correctly
-			var image = Image.new()
-			image = Image.load_from_file(file_location)
-			image.convert(Image.FORMAT_RGBA8)
-			active_node.lookup_diagram = image
-			active_node.material.set_shader_parameter("lookupDiagram", ImageTexture.create_from_image(image))
-		
-		if generate_polygons.button_pressed:
-			createPolygons()
-		
-		# Generate the astar diagram
-		if active_node.generate_astar:
-			active_node.graph = graph
-		
-		save_load_operations_list.visible = true
-		active_node.queue_redraw()	# Give a box for the shader to operate on
-		display_root.queue_redraw()	# The size box may have changed
-		edit_mode = false
-		edit_diagram.button_pressed = false
+			if generate_polygons.button_pressed:
+				createPolygons()
+			
+			
+			save_load_operations_list.visible = true
+			active_node.queue_redraw()	# Give a box for the shader to operate on
+			display_root.queue_redraw()	# The size box may have changed
+			edit_mode = false
+			edit_diagram.button_pressed = false
 	else:
 		push_error("you need points!")
 	
@@ -397,13 +415,17 @@ func _on_poisson_enter_pressed():
 	var new_points = poisson.execute(radius, tries, active_node.size)
 	
 	#print("Writing Data to active node...")
-	# add the points to the active node
+	# Add the points to the active node
 	for point in new_points:
 		# I may report this as a bug later.
 		# I have to convert it into a vector2 then pass it in... IDK why but just doing 'insertPoint(point[0], point[1])' does not work.
 		var pnt = Vector2(point[0], point[1])
-		insert_point(pnt.x, pnt.y)
+		insert_point(pnt.x, pnt.y, true)
 	
+	if diagram_draw_flag:
+		compute(true)
+	
+	display_root.queue_redraw()	# Display the points
 	#print("Operation Complete")
 	
 	main_operations.visible = true
@@ -435,7 +457,13 @@ func _on_line_spin_box_value_changed(value):
 	display_root.set_line_width(value)
 	display_root.queue_redraw()
 
-
+# Shows the nearest neigbor graph
 func _on_show_graph_toggled(button_pressed):
 	display_root.render_graph = button_pressed
+	display_root.queue_redraw()
+
+# Changes the setting for the continuous redrawing of the screen when any edit is made
+func _on_draw_diagram_toggled(button_pressed):
+	diagram_draw_flag = button_pressed
+	compute(true)
 	display_root.queue_redraw()

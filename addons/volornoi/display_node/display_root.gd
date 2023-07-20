@@ -16,6 +16,9 @@ var size_marker := Vector2()
 var size_marker_being_dragged
 var render_graph := true	#flag to render graph
 
+func _ready():
+	z_index = RenderingServer.CANVAS_ITEM_Z_MAX - 1	# Place the drawing on top of every other object
+
 func set_radius(_radius : int):
 	radius = _radius
 	border = floor(radius/5)
@@ -70,6 +73,11 @@ func _process(delta):
 			var mpos = plugin_menu.active_node.get_global_mouse_position()
 			plugin_menu.active_node.size = [round(mpos.x), round(mpos.y)]
 			size_marker = Vector2(round(mpos.x), round(mpos.y))
+		else:
+			var mpos = plugin_menu.active_node.get_global_mouse_position()
+			var old_pnt = point_being_dragged
+			point_being_dragged = [round(mpos.x), round(mpos.y)]	# Preset the new point position. If the position isn't correct the edit_point function will fix it
+			plugin_menu.edit_point(old_pnt, mpos)
 		queue_redraw()
 
 
@@ -79,7 +87,15 @@ func _draw():
 		var size = plugin_menu.active_node.size
 		draw_rect(Rect2(plugin_menu.active_node.position, Vector2(size[0], size[1])), Color(255,0,0), false, line_width)
 		
-		#draw the nearest-neighbor graph
+		# Real time graph update
+		if plugin_menu.diagram_draw_flag == true and plugin_menu.active_node.color_map.size() > 3:
+			# Update the graph
+			for color_name in plugin_menu.active_node.color_map:
+				var cell = plugin_menu.active_node.color_map[color_name]
+				draw_colored_polygon(cell[2], Color8(color_name[0], color_name[1], color_name[2]))
+		
+		
+		# Draw the nearest-neighbor graph
 		if render_graph and plugin_menu.active_node.graph.size() > 0:
 			var graph = plugin_menu.active_node.graph
 			for start_loc in graph:
@@ -109,5 +125,6 @@ func _draw():
 			if !size_marker_being_dragged:
 				draw_circle(size_marker, radius, Color("#2F67FF"))	# Outer | I am using a hex color code for this line as the rgb wouldn't work without a restart
 				draw_circle(size_marker, radius-border, Color("#FFFFFF"))	# Inner
+		
 		
 
