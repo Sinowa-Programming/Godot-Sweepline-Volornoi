@@ -94,7 +94,7 @@ uniform sampler2D lookupDiagram;
 ## Known Bugs
 * The volornoi node will misfunction if a root node.
 * Godot may crash if you try to turn a large amount of volornoi cells into polygon nodes. ~2000 cells
-* There is an edge case where there are more than 1 intersection underneath the borderline. <span style="color: orange"> Currently Working on </span>
+* There is an edge case where there are more than 1 intersection underneath the borderline.**( Currently Working on )**
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/LICENSE) file for details.
