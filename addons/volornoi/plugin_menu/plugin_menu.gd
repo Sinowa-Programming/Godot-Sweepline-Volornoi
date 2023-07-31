@@ -24,6 +24,7 @@ var save_file_flag := false
 var diagram_draw_flag := true
 var real_time_flag := true
 
+
 # internal variables
 var active_node = null	# The voronoi node to be operated on
 var voronoi	# The voronoi processing c# script instance
@@ -115,6 +116,7 @@ func _on_editor_input(mouse_pos) -> void:
 # The quick variable is for mass insertion. It won't redraw after every insertion
 func insert_point(x,y) -> void:
 	var pnt = [round(x), round(y)]
+
 	# Makes sure the point is in side of the set size
 	if (x < active_node.size[0] and 0 < x) and (y < active_node.size[1] and 0 < y) and not active_node.point_list.has(pnt):
 		var rand_gen = RandomNumberGenerator.new()
@@ -129,6 +131,7 @@ func insert_point(x,y) -> void:
 		active_node.color_map[color] = [active_node.id_num, Vector2(pnt[0],pnt[1]), []]
 		id_table[pnt] = color
 		active_node.point_list.append(pnt)
+
 		rand_seed = rand_gen.randi()	# Change the random value so the same number is not regenerated
 		active_node.id_num += 1
 		display_root.queue_redraw()
@@ -164,6 +167,7 @@ func remove_point(pnt) -> void:
 	active_node.point_list.erase(pnt)
 	active_node.color_map.erase( id_table[pnt] )
 	id_table.erase(pnt)
+  
 	if real_time_flag:
 		compute()
 
@@ -204,13 +208,14 @@ func compute() -> void:
 			var color = id_table[[site.x, site.y]]
 			active_node.color_map[ color ][2] = pl
 			graph[site] = dict[site][1]
-			
+
 			# Store the graph for Astar generation
 			if active_node.generate_astar:
 				active_node.graph = graph
 		
 		save_load_operations_list.visible = true
 		display_root.queue_redraw()
+
 	else:
 		push_error("you need points!")
 
@@ -406,7 +411,10 @@ func _on_poisson_enter_pressed():
 		# I may report this as a bug later.
 		# I have to convert it into a vector2 then pass it in... IDK why but just doing 'insertPoint(point[0], point[1])' does not work.
 		var pnt = Vector2(point[0], point[1])
-		insert_point(pnt.x, pnt.y)
+		insert_point(pnt.x, pnt.y, true)
+	
+	if diagram_draw_flag:
+		compute(true)
 	
 	if real_time_flag:
 		compute()
@@ -444,7 +452,6 @@ func _on_spin_box_value_changed(value):
 func _on_line_spin_box_value_changed(value):
 	display_root.set_line_width(value)
 	display_root.queue_redraw()
-
 
 # Shows the nearest neigbor graph
 func _on_show__connectivity_graph_toggled(button_pressed):

@@ -117,6 +117,12 @@ button_pressed = true
 text = "Real Time Graph
 Update"
 
+[node name="draw_diagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+button_pressed = true
+text = "Real Time Graph
+Update"
+
 [node name="EditDiagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
 tooltip_text = "Controls if you can add or remove points. If off you can't add or remove."

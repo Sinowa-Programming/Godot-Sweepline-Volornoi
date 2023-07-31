@@ -1061,6 +1061,7 @@ func removeArc(siteIdx : int) -> void:
 			b1 = float(midpoint1[1] - m1*midpoint1[0])
 			lFloorPnt = [(-b1)/m1, 0]   #floor Collision
 			rFloorPnt = [(-b2)/m2, 0]   #site and right_site floor Collision
+			circumcenter = lFloorPnt
 			
 			#left_edge = [beachline[beachSiteIdx-1], lFloorPnt]
 			left_edge = [lFloorPnt, rFloorPnt]
