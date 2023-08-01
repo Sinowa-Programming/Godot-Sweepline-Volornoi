@@ -12,13 +12,13 @@ signal editor_input
 
 func _enter_tree():
 	set_process_input(true)
-	add_autoload_singleton(VOLORNOI_AUTOLOAD_NAME, "res://addons/volornoi/autoloads/volornoi_autoload.gd")
+	add_autoload_singleton(VOLORNOI_AUTOLOAD_NAME, "res://addons/volornoi/autoloads/voronoi_autoload.gd")
 	plugin_menu = preload("res://addons/volornoi/plugin_menu/plugin_menu.tscn").instantiate()
 	add_control_to_dock(DOCK_SLOT_LEFT_UL, plugin_menu)
 	active_node_changed.connect(plugin_menu._on_active_node_changed)
 	plugin_menu.main_plugin = self
 	editor_input.connect(plugin_menu._on_editor_input)
-	add_custom_type("VolornoiPolygon", "Node2D", preload("res://addons/volornoi/volornoi_node/volornoi_map.gd"), preload("res://addons/volornoi/volornoi_node/volornoi_icon.png"))
+	add_custom_type("Voronoi", "Node2D", preload("res://addons/volornoi/voronoi_node/voronoi_map.gd"), preload("res://addons/volornoi/voronoi_node/voronoi_icon.png"))
 	eds.selection_changed.connect(_on_selection_changed)
 
 func _exit_tree():
@@ -29,7 +29,7 @@ func _exit_tree():
 	plugin_menu.free()
 	
 	remove_autoload_singleton(VOLORNOI_AUTOLOAD_NAME)
-	remove_custom_type("VolornoiPolygon")
+	remove_custom_type("Voronoi")
 
 func _on_selection_changed():
 	var selected = eds.get_selected_nodes()

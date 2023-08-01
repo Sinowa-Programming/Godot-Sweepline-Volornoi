@@ -88,7 +88,7 @@ func _draw():
 		draw_rect(Rect2(plugin_menu.active_node.position, Vector2(size[0], size[1])), Color(255,0,0), false, line_width)
 		
 		# Real time graph update
-		if plugin_menu.diagram_draw_flag == true and plugin_menu.active_node.color_map.size() > 3:
+		if plugin_menu.diagram_draw_flag == true and not plugin_menu.active_node.color_map.is_empty():
 			# Update the graph
 			for color_name in plugin_menu.active_node.color_map:
 				var cell = plugin_menu.active_node.color_map[color_name]
@@ -96,7 +96,7 @@ func _draw():
 		
 		
 		# Draw the nearest-neighbor graph
-		if render_graph and plugin_menu.active_node.graph.size() > 0:
+		if render_graph and not plugin_menu.active_node.graph.is_empty():
 			var graph = plugin_menu.active_node.graph
 			for start_loc in graph:
 				var destinations = graph[start_loc]

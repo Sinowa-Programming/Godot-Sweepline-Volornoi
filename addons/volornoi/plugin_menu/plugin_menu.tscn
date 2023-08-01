@@ -32,6 +32,7 @@ theme_override_constants/separation = 0
 
 [node name="loadDiagram" type="Button" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
+tooltip_text = "Loads the Diagram from a json file"
 text = "Load Selected
 Diagram"
 
@@ -45,16 +46,6 @@ layout_mode = 2
 text = "Save Selected
 Diagram"
 
-[node name="reloadDiagram" type="Button" parent="rootContainer/mainOperations/operationsList/afterComputationOps"]
-layout_mode = 2
-tooltip_text = "Reloads the diagram without "
-text = "Reload Diagram"
-
-[node name="computeDiagram" type="Button" parent="rootContainer/mainOperations/operationsList"]
-layout_mode = 2
-text = "Compute Selected
-Diagram"
-
 [node name="generatePoints" type="Button" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
 text = "Generate Field
@@ -62,18 +53,25 @@ of Points"
 
 [node name="clearPoints" type="Button" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
+tooltip_text = "Clears all of the points, cells, and graph from the node."
 text = "Clear All Points"
 
-[node name="generatePolygons" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+[node name="generatePolygons" type="Button" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
 text = "Create Polygon
 Cells"
 
-[node name="generateColorMap" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+[node name="generateColorMap" type="Button" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
+tooltip_text = "Generates a SVG file of the displayed diagram."
 text = "Generate a 
 color lookup 
 diagram"
+
+[node name="reloadDiagram" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "A button for reloading the diagram manually"
+text = "Reload Diagram"
 
 [node name="pointSize" type="HBoxContainer" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
@@ -97,13 +95,24 @@ text = "Line Width: "
 layout_mode = 2
 value = 2.0
 
+[node name="show_connectivity_graph" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Shows a nearest neighbor graph of the data"
+button_pressed = true
+text = "Show 
+Connectivity
+Graph"
+
 [node name="show_graph" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
+tooltip_text = "Shows Voronoi graph"
 button_pressed = true
-text = "Show Graph"
+text = "Show 
+Graph"
 
 [node name="draw_diagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
 layout_mode = 2
+tooltip_text = "Displays the graph after every change"
 button_pressed = true
 text = "Real Time Graph
 Update"
@@ -199,12 +208,14 @@ horizontal_alignment = 1
 [connection signal="pressed" from="rootContainer/mainOperations/newNode" to="." method="_on_new_node_pressed"]
 [connection signal="pressed" from="rootContainer/mainOperations/operationsList/loadDiagram" to="." method="_on_load_diagram_pressed"]
 [connection signal="pressed" from="rootContainer/mainOperations/operationsList/afterComputationOps/saveDiagram" to="." method="_on_save_diagram_pressed"]
-[connection signal="pressed" from="rootContainer/mainOperations/operationsList/afterComputationOps/reloadDiagram" to="." method="_on_reload_diagram_pressed"]
-[connection signal="pressed" from="rootContainer/mainOperations/operationsList/computeDiagram" to="." method="_on_compute_diagram_pressed"]
 [connection signal="pressed" from="rootContainer/mainOperations/operationsList/generatePoints" to="." method="_on_generate_points_pressed"]
 [connection signal="pressed" from="rootContainer/mainOperations/operationsList/clearPoints" to="." method="_on_clear_points_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/generatePolygons" to="." method="_on_generate_polygons_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/generateColorMap" to="." method="_on_generate_color_map_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/reloadDiagram" to="." method="_on_reload_diagram_pressed"]
 [connection signal="value_changed" from="rootContainer/mainOperations/operationsList/pointSize/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="value_changed" from="rootContainer/mainOperations/operationsList/line_width/SpinBox" to="." method="_on_line_spin_box_value_changed"]
+[connection signal="toggled" from="rootContainer/mainOperations/operationsList/show_connectivity_graph" to="." method="_on_show__connectivity_graph_toggled"]
 [connection signal="toggled" from="rootContainer/mainOperations/operationsList/show_graph" to="." method="_on_show_graph_toggled"]
 [connection signal="toggled" from="rootContainer/mainOperations/operationsList/draw_diagram" to="." method="_on_draw_diagram_toggled"]
 [connection signal="toggled" from="rootContainer/mainOperations/operationsList/EditDiagram" to="." method="_on_edit_diagram_toggled"]
