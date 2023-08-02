@@ -17,7 +17,7 @@ Image of polygon display
 * Save and loading of voronoi diagrams
 
 ## Documentation
-This can be found on this repo's [wiki](wiki/link)
+This can be found on this repo's [wiki](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/wiki)
 
 ## Notes
 * Due to the nature of geometry, there are many edge cases that occur while using this algorithm. Edges cases are rare and if they happen, slightly move the problem site 1 or 2 pixels. If possible, please also open a github issue with the problem point list, so I can resolve the edge case.
