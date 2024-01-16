@@ -195,7 +195,11 @@ func _on_file_dialog_file_selected(path) -> void:
 func compute() -> void:
 	var graph = {}	# Stores a graph to be used in aStar navigation
 	if !active_node.point_list.is_empty():
-		var dict = voronoi.execute(active_node.point_list, active_node.size)	# Access the Volornoi autload
+		var plv : Array[Vector2]
+		plv.resize(len(active_node.point_list))
+		for j : int in range(len(active_node.point_list)):
+			plv[j] = Vector2(active_node.point_list[j][0], active_node.point_list[j][1])
+		var dict = voronoi.execute(plv, [0, active_node.size[0], 0, active_node.size[1])	# Access the Volornoi autload
 		for site in dict:
 			var pl = PackedVector2Array()
 			var polygonArr = dict[site][0]	# Dict[site][1] contains the cell neighbors
