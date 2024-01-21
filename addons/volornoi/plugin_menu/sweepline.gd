@@ -761,7 +761,7 @@ func closeEdge(edgeIdx : int) -> void:
 		
 		if endPoint[1] > size[3]:    # If outside of the boundary
 			endPoint = Vector2( (size[3]-b1)/m1, size[3] )    # Ceiling Collision
-		elif endPoint[1] < 0: # If negative
+		elif endPoint[1] < size[2]: # If negative
 			endPoint = Vector2( (size[2]-b1)/m1, size[2] )   # Floor Collision
 		
 	else:   # edgeLean is right
@@ -769,7 +769,7 @@ func closeEdge(edgeIdx : int) -> void:
 		
 		if endPoint[1] > size[3]:    # If outside of the boundary
 			endPoint = Vector2( (size[3]-b1)/m1, size[3] )    # Ceiling Collision
-		elif endPoint[1] < 0: #if negative
+		elif endPoint[1] < size[2]: #if negative
 			endPoint = Vector2( (size[2]-b1)/m1, size[2] )   # Floor Collision
 	
 	var edge : Array[Vector2] = [midpoint, endPoint]

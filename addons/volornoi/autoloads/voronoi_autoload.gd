@@ -4,13 +4,12 @@ extends Node
 ## Returns a dictionary in the format 	{site : [[ [x1, y1], [x2, y2] ], [neighbor site1, neighbor site2]] }
 ## Return type: 	{Vector2 : [[ Array, Array ], [ Array, Array ]] }
 
-
-var voronoi_script	# The voronoi script
-var poisson_script	# The poisson algorithm port
+var voronoi_script
+var poisson_script
 
 func _ready():
 	var voronoi_file = preload("res://addons/volornoi/plugin_menu/sweepline.gd")
-	voronoi_script = voronoi_file.new()
+	voronoi_script = VoronoiSweepline.new()
 	
 	var poisson_file = preload("res://addons/volornoi/poisson/poisson.gd")
 	poisson_script = poisson_file.new()
