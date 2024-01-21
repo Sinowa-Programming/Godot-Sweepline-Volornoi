@@ -1025,7 +1025,7 @@ func removeArc(siteIdx : int) -> void:
 			pass
 		
 		# If the right half edge has a non-root edge then close it
-		elif beachline[beachSiteIdx+1][1] > 0:
+		elif beachline[beachSiteIdx+1][1] > size[2]:
 			#print("Left site")
 			# The right site is the non-root site
 			center_site = right_site
