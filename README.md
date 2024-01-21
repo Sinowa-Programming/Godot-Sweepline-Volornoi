@@ -1,61 +1,59 @@
 # Godot-Sweepline-Volornoi
 
-A Godot 4.X addon that generates and displays a volornoi diagram using  [Fortone's sweepline algorithm](https://en.wikipedia.org/wiki/Fortune%27s_algorithm). This project is a fun hobby project and I welcome you to fork it! :)
+A Godot 4.X addon that generates and displays a voronoi diagram using a port of my python implementation of [Fortone's sweepline algorithm](https://en.wikipedia.org/wiki/Fortune%27s_algorithm). This project is a fun hobby project and I welcome you to fork it! :)
 
 ## Example Results
-![Image of diagram displayed through a shader](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/images/shader_display_example.png)
-![Image of a diagram displayed through Polygon2D](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/images/polygon_display_example.png)
+Image of shader display
+![Image of shader display](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/images/shader_display_example.png)
+Image of polygon display
+![Image of Polygon Display](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/images/polygon_display_example.png)
 
 ## Features
-* Generate cells along with a nearest-neighbor graph 
-* [Lloyd's relaxation algorithm](https://en.wikipedia.org/wiki/Lloyd%27s_algorithm)
-* Generated to a rectangular field
 
-## Operation
-You can generate a volornoi diagram through code using this plugin.
-See [example.tscn](path/to/example.tscn) for a runnable example.
+* Can generate a svg file for quick loopup of cells
+* Generates the polygons along with a nearest-neighbor graph
+* Generates to a rectangular field
+* Consistant cell coloring
+* Save and loading of voronoi diagrams
 
-* To call the volornoi algorithm:
-```GDScript
-var point_list : Array[Vector2] = [Vector2(1,1), Vector2(3,1), Vector2(3,3), Vector2(2,2), Vector2(1,3)]
-var voronoi : VoronoiSweepline = VoronoiSweepline.new()
-voronoi.generate( point_list, [0, 4, 0, 4 ])
-```
-* VoronoiSweepline.generate parameters:
-* * point_list -  The list of seed points that the algorithm uses. Must be in a Array[ Vector2 ] format.
-* * sizebox - The area that the algorithm is iterating over. [left wall, right wall, floor, ceiling]. They **CANNOT** be negative and all points must be inside of the diagram. They cannot be on the border or errors may occur.
-  ```
-     (0,0)--floor----+   
-       |             |
-   left wall     right wall
-       |             |
-       +---ceiling-(x,y)
-    ```
-* To use Lyod's relaxation algorithm
-```GDScript
-voronoi.relax()
-```
+## Documentation
+This can be found on this repo's [wiki](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/wiki)
 
 ## Notes
-* Errors with polygon generation occur if there are points too close together due to computer floating point inprecision. Try to keep points at least 1 away from each other to minimize errors. Even further to ensure no errors occur.
-* To relax the diagram you have to generate the diagram first so there are cells to relax
+* Due to the nature of geometry, there are many edge cases that occur while using this algorithm. Edges cases are rare and if they happen, slightly move the problem site 1 or 2 pixels. If possible, please also open a github issue with the problem point list, so I can resolve the edge case.
+* While there may be errors in regards to invalid polygon data, the result should be fine.
+* Errors with polygon generation occur if there are points too close together due to computer floating point inprecision.
 
 
 ## Data Structures
 Sweepline Algorithm
 ```GDScript
-class VoronoiSweepline:
-    func _init() -> void
-    func generate(point_list : Array[Vector2], sizebox : Array) -> void
-    func relax() -> void
-    func process_cell_chunk( chunk : Array, start_idx : int, output_lst : Array[Vector2]) -> void
-    func calc_centroid(pointlist : Array) -> Vector2
+func volornoi(_pointLst : Array, _size : Array) -> Dictionary
+```
+Poisson Algorithm
+```GDScript
+func poisson(_min_radius : float, tries : int, img_size : Array) -> Array
+```
+Simple Outline Shader
+```GLSL
+uniform float radius; # Only intergers
+uniform vec4 border_color;
+uniform sampler2D lookupDiagram;
 ```
 
+## Known Bugs
+* The voronoi node will misfunction if a root node.
+* Godot may crash if you try to turn a large amount of volornoi cells into polygon nodes. ~2000 cells
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/main/LICENSE) file for details.
 
+## Todo
+* [x] Real time graph update
+* [ ] Add code documentation
+* [ ] Implement divide and conquer algorithm
 
 ## Acknowledgments
+
 * [Easily explains the fortone sweepline algorithm](https://blog.ivank.net/fortunes-algorithm-and-implementation.html)
+* [Site that I ported the poisson algorithm from](https://sighack.com/post/poisson-disk-sampling-bridsons-algorithm)
