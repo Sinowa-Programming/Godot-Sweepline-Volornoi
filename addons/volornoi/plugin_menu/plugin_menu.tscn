@@ -1,0 +1,229 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1tg0f2l6p8wc"]
+
+[ext_resource type="Script" path="res://addons/volornoi/plugin_menu/plugin_menu.gd" id="1_ns5wd"]
+
+[node name="pluginMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ns5wd")
+
+[node name="rootContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 170.0
+offset_bottom = 54.0
+
+[node name="mainOperations" type="VBoxContainer" parent="rootContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="newNode" type="Button" parent="rootContainer/mainOperations"]
+layout_mode = 2
+text = "New Volornoi
+Diagram"
+
+[node name="operationsList" type="VBoxContainer" parent="rootContainer/mainOperations"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="loadDiagram" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Loads the Diagram from a json file"
+text = "Load Selected
+Diagram"
+
+[node name="afterComputationOps" type="VBoxContainer" parent="rootContainer/mainOperations/operationsList"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="saveDiagram" type="Button" parent="rootContainer/mainOperations/operationsList/afterComputationOps"]
+layout_mode = 2
+text = "Save Selected
+Diagram"
+
+[node name="generatePoints" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+text = "Generate Field
+of Points"
+
+[node name="clearPoints" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Clears all of the points, cells, and graph from the node."
+text = "Clear All Points"
+
+[node name="generatePolygons" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+text = "Create Polygon
+Cells"
+
+[node name="generateColorMap" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Generates a SVG file of the displayed diagram."
+text = "Generate a 
+color lookup 
+diagram"
+
+[node name="reloadDiagram" type="Button" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "A button for reloading the diagram manually"
+text = "Reload Diagram"
+
+[node name="pointSize" type="HBoxContainer" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="rootContainer/mainOperations/operationsList/pointSize"]
+layout_mode = 2
+text = "Point Size: "
+
+[node name="SpinBox" type="SpinBox" parent="rootContainer/mainOperations/operationsList/pointSize"]
+layout_mode = 2
+value = 10.0
+
+[node name="line_width" type="HBoxContainer" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="rootContainer/mainOperations/operationsList/line_width"]
+layout_mode = 2
+text = "Line Width: "
+
+[node name="SpinBox" type="SpinBox" parent="rootContainer/mainOperations/operationsList/line_width"]
+layout_mode = 2
+value = 2.0
+
+[node name="show_connectivity_graph" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Shows a nearest neighbor graph of the data"
+button_pressed = true
+text = "Show 
+Connectivity
+Graph"
+
+[node name="show_graph" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Shows Voronoi graph"
+button_pressed = true
+text = "Show 
+Graph"
+
+[node name="draw_diagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Displays the graph after every change"
+button_pressed = true
+text = "Real Time Graph
+Update"
+
+[node name="EditDiagram" type="CheckButton" parent="rootContainer/mainOperations/operationsList"]
+layout_mode = 2
+tooltip_text = "Controls if you can add or remove points. If off you can't add or remove."
+theme_override_colors/font_color = Color(0.952941, 0.113725, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.784314, 0, 1)
+text = "Edit"
+
+[node name="poissonSettings" type="VBoxContainer" parent="rootContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="radius" type="HBoxContainer" parent="rootContainer/poissonSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="rootContainer/poissonSettings/radius"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Radius:"
+
+[node name="SpinBox" type="SpinBox" parent="rootContainer/poissonSettings/radius"]
+layout_mode = 2
+value = 100.0
+
+[node name="tries" type="HBoxContainer" parent="rootContainer/poissonSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="rootContainer/poissonSettings/tries"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tries:"
+
+[node name="SpinBox" type="SpinBox" parent="rootContainer/poissonSettings/tries"]
+layout_mode = 2
+value = 30.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="rootContainer/poissonSettings"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Enter" type="Button" parent="rootContainer/poissonSettings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Complete"
+
+[node name="Cancel" type="Button" parent="rootContainer/poissonSettings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+mode = 2
+title = "Choose the Location To Save Loopup Diagram"
+initial_position = 1
+size = Vector2i(392, 162)
+ok_button_text = "Select Location"
+filters = PackedStringArray("*.svg ; Svg Images")
+
+[node name="savejsonFileDialog" type="FileDialog" parent="."]
+mode = 2
+title = "Choose the Location To Save Loopup Diagram"
+initial_position = 1
+size = Vector2i(392, 162)
+ok_button_text = "Select Location"
+filters = PackedStringArray("*.json ; Json save files")
+
+[node name="loadFileDialog" type="FileDialog" parent="."]
+mode = 2
+title = "Open a File"
+initial_position = 1
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray("*.json ; Json save files")
+
+[node name="clearPointsConfirmation" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(350, 100)
+unfocusable = true
+popup_window = true
+
+[node name="Label" type="Label" parent="clearPointsConfirmation"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 342.0
+offset_bottom = 51.0
+text = "Do you really want to clear all points?"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="rootContainer/mainOperations/newNode" to="." method="_on_new_node_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/loadDiagram" to="." method="_on_load_diagram_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/afterComputationOps/saveDiagram" to="." method="_on_save_diagram_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/generatePoints" to="." method="_on_generate_points_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/clearPoints" to="." method="_on_clear_points_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/generatePolygons" to="." method="_on_generate_polygons_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/generateColorMap" to="." method="_on_generate_color_map_pressed"]
+[connection signal="pressed" from="rootContainer/mainOperations/operationsList/reloadDiagram" to="." method="_on_reload_diagram_pressed"]
+[connection signal="value_changed" from="rootContainer/mainOperations/operationsList/pointSize/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="rootContainer/mainOperations/operationsList/line_width/SpinBox" to="." method="_on_line_spin_box_value_changed"]
+[connection signal="toggled" from="rootContainer/mainOperations/operationsList/show_connectivity_graph" to="." method="_on_show__connectivity_graph_toggled"]
+[connection signal="toggled" from="rootContainer/mainOperations/operationsList/show_graph" to="." method="_on_show_graph_toggled"]
+[connection signal="toggled" from="rootContainer/mainOperations/operationsList/draw_diagram" to="." method="_on_draw_diagram_toggled"]
+[connection signal="toggled" from="rootContainer/mainOperations/operationsList/EditDiagram" to="." method="_on_edit_diagram_toggled"]
+[connection signal="pressed" from="rootContainer/poissonSettings/HBoxContainer/Enter" to="." method="_on_poisson_enter_pressed"]
+[connection signal="pressed" from="rootContainer/poissonSettings/HBoxContainer/Cancel" to="." method="_on_poisson_cancel_pressed"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="files_selected" from="FileDialog" to="." method="_on_file_dialog_files_selected"]
+[connection signal="file_selected" from="savejsonFileDialog" to="." method="_on_savejson_file_dialog_file_selected"]
+[connection signal="file_selected" from="loadFileDialog" to="." method="_on_load_file_dialog_file_selected"]
+[connection signal="confirmed" from="clearPointsConfirmation" to="." method="_on_clear_points_confirmation_confirmed"]
