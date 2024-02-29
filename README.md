@@ -31,14 +31,13 @@ voronoi.generate( point_list, [0, 4, 0, 4 ])
        |             |
        +---ceiling-(x,y)
     ```
-* To use Lyod's relaxation algorithm
+* To use Llyod's relaxation algorithm
 ```GDScript
 voronoi.relax()
 ```
 
 ## Notes
-* Errors with polygon generation occur if there are points too close together due to computer floating point inprecision. Try to keep points at least 1 away from each other to minimize errors. Even further to ensure no errors occur.
-* To relax the diagram you have to generate the diagram first so there are cells to relax
+* Errors with polygon generation occur if there are points too close together due to computer floating-point in precision.* To relax the diagram you have to generate the diagram first so there are cells to relax
 
 
 ## Data Structures
