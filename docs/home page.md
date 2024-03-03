@@ -1,6 +1,5 @@
 # Godot Sweepline Volornoi Addon Wiki
 ## Docs
-#### [Link to Documentation on using the provided voronoi node](doc/link)
 #### [Link to Documentation on using addon though scripting](doc/link)
 
 ## FAQ
