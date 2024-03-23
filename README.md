@@ -21,7 +21,7 @@ var point_list : Array[Vector2] = [Vector2(1,1), Vector2(3,1), Vector2(3,3), Vec
 var voronoi : VoronoiSweepline = VoronoiSweepline.new()
 voronoi.generate( point_list, [0, 4, 0, 4 ])
 ```
-* VoronoiSweepline.generate parameters:
+VoronoiSweepline.generate parameters:
 * * point_list -  The list of seed points that the algorithm uses. Must be in a Array[ Vector2 ] format.
 * * sizebox - The area that the algorithm is iterating over. [left wall, right wall, floor, ceiling]. They **CANNOT** be negative and all points must be inside of the diagram. They cannot be on the border or errors may occur.
   ```
@@ -31,7 +31,7 @@ voronoi.generate( point_list, [0, 4, 0, 4 ])
        |             |
        +---ceiling-(x,y)
     ```
-* To use Llyod's relaxation algorithm
+To use Llyod's relaxation algorithm
 ```GDScript
 voronoi.relax()
 ```
