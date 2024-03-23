@@ -1,4 +1,4 @@
-# Godot Sweepline Volornoi Addon Wiki
+# Godot Sweepline Voronoi Addon Wiki
 ## Docs
 #### [Link to Documentation on using addon though scripting](doc/link)
 
