@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://sprlcuevvsbs"]
+
+[sub_resource type="GDScript" id="GDScript_e458r"]
+resource_local_to_scene = true
+resource_name = "Example code"
+script/source = "extends Node2D
+
+
+@export var point_num : int = 500	# Will generate 500 points
+
+var voronoi : VoronoiSweepline = VoronoiSweepline.new()
+var rng : RandomNumberGenerator = RandomNumberGenerator.new()
+
+
+func _on_generate_pressed():
+	# Generate a set of random points
+	var points : Array[Vector2]
+	points.resize(point_num)
+	
+	for i : int in range( point_num ):
+		points[i] = Vector2( rng.randf_range(10.1, 499.99999999), rng.randf_range(10.1, 499.99999999) )	# Generate points betweeen 10 and 500 for the x and y axis
+	
+	voronoi.generate( points, [10, 500, 10, 500])
+	
+	display(voronoi.cells)
+
+
+func _on_relax_pressed() -> void:
+	voronoi.relax()
+	display( voronoi.cells )
+
+
+func display(cells : Dictionary) -> void:
+	if get_child_count() > 1:
+		get_child(1).free()
+	
+	var root : Node2D = Node2D.new()
+	root.position = Vector2(80,80)	# Shift the diagram so it clear the buttons
+	add_child(root)
+	# Display the cells
+	for cell_name : Vector2 in cells:
+		var poly = Polygon2D.new()
+		poly.polygon = PackedVector2Array( cells[cell_name][0] )	# cell[0] is the cell's polygon. cell[1] are the neigboring cells
+		poly.color = Color(rng.randf_range(0, 1),rng.randf_range(0, 1),rng.randf_range(0, 1))
+		root.add_child(poly)
+"
+
+[node name="Example" type="Node2D"]
+script = SubResource("GDScript_e458r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="generate" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Generate New"
+
+[node name="relax" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Relax"
+
+[connection signal="pressed" from="VBoxContainer/generate" to="." method="_on_generate_pressed"]
+[connection signal="pressed" from="VBoxContainer/relax" to="." method="_on_relax_pressed"]
