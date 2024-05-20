@@ -13,7 +13,7 @@ A Godot 4.X addon that generates and displays a volornoi diagram using  [Fortone
 
 ## Operation
 You can generate a volornoi diagram through code using this plugin.
-See [example.tscn](path/to/example.tscn) for a runnable example.
+See [example.tscn](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/2.0.0/Example/example.tscn) for a runnable example.
 
 * To call the volornoi algorithm:
 ```GDScript
