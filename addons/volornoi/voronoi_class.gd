@@ -2,12 +2,16 @@ extends Resource
 class_name VoronoiSweepline
 
 var voronoi
+var svg_saver : Node
+var astar_generator : Node
 var pointlist : Array[Vector2]
 var size : Array
 var cells : Dictionary
 
 func _init() -> void:
 	voronoi =  load("res://addons/volornoi/sweepline.gd").new()
+	svg_saver = load("res://addons/volornoi/svg_saver.gd").new()
+	astar_generator = load("res://addons/volornoi/astar_generator.gd").new()
 
 # Sizebox is in [left wall, right wall, floor, ceiling]
 func generate( point_list : Array[Vector2], sizebox : Array) -> void:
@@ -75,3 +79,12 @@ func calc_centroid(pointlist : Array) -> Vector2:
 		centroid += pnt
 	
 	return centroid / pointlist.size()
+
+
+# Saves the given image as an svg. If colormap is {} then it will generate a default svg polygon without the rgb tag
+func generate_svg_string(color_map : Dictionary) -> String:
+	return svg_saver.generateSVGString(self, color_map)
+
+
+func generate_astar(astar_node : AStar2D) -> AStar2D:
+	return astar_generator.aStarSetup(self, astar_node)
