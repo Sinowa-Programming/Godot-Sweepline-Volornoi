@@ -9,11 +9,15 @@ A Godot 4.X addon that generates and displays a volornoi diagram using  [Fortone
 ## Features
 * Generate cells along with a nearest-neighbor graph 
 * [Lloyd's relaxation algorithm](https://en.wikipedia.org/wiki/Lloyd%27s_algorithm)
-* Generated to a rectangular field
+* Pure GDScript
+* SVG export support
 
 ## Operation
 You can generate a volornoi diagram through code using this plugin.
-See [example.tscn](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/2.0.0/Example/example.tscn) for a runnable example.
+
+See full documentation [here](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/wiki/Scripting-Docs).
+
+See [Example folder]([https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/2.0.0/Example/example.tscn](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/tree/2.0.0(-Alpha-)/Example)) for runnable examples.
 
 * To call the volornoi algorithm:
 ```GDScript
