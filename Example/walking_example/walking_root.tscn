@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://bkj61313jroup"]
+
+[ext_resource type="PackedScene" uid="uid://dn1y0indqo61u" path="res://Example/walking_example/unit/unit.tscn" id="1_goihe"]
+[ext_resource type="PackedScene" uid="uid://ji0g6lmmxutj" path="res://Example/walking_example/camera/camera_2d.tscn" id="2_ti2xv"]
+
+[sub_resource type="Shader" id="Shader_j5ue0"]
+code = "shader_type canvas_item;
+uniform float radius = 2;	//line width | ints recommended (given float to silence error)
+uniform vec4 border_color = vec4(.1,.1,.1,1.0);
+uniform sampler2D lookup_diagram;
+
+void fragment() {
+	vec2 pixel_size = 1.0 / vec2(textureSize(TEXTURE, 0));
+
+	//provides an simple outline for the diagram
+	vec4 pixColor = texture(TEXTURE, UV);
+
+	for(float y = -radius; y <= radius; y++)
+	{
+		for(float x = -radius; x <= radius; x++)
+		{
+			if (abs(x + y) > 0.01)	//x and y at zero is the source pixel
+			{
+				vec4 neighbor = texture(TEXTURE, UV + vec2(pixel_size.x * x, pixel_size.y * y));
+				if(neighbor.rgba != pixColor)
+				{
+					COLOR = border_color;
+					break;
+				}
+			}
+		}
+	} if (COLOR != border_color) {
+		discard;
+	}
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jqire"]
+shader = SubResource("Shader_j5ue0")
+shader_parameter/radius = 2.0
+shader_parameter/border_color = Vector4(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="GDScript" id="GDScript_oy1fr"]
+script/source = "extends Sprite2D
+
+var voronoi_gen : VoronoiSweepline
+
+@export var lookup_diagram : Image	# is used for finding the cell at the position. Like in paradox games
+var color_lookup_dict : Dictionary	# Each color points to their respective point
+var color_map : Dictionary
+var astar : AStar2D # is set using the graph
+
+var point_num : int = 500
+var x : int = 1000
+var y : int = 500
+
+func _ready():
+	# Generate a set of random points
+	var rng : RandomNumberGenerator = RandomNumberGenerator.new()
+	var points : Array[Vector2]
+	points.resize(point_num)
+	
+	for i : int in range( point_num ):
+		points[i] = Vector2( rng.randf_range(0, x), rng.randf_range(0, y) )	# Generate points for the x and y axis
+	
+	# Generate the map
+	voronoi_gen = VoronoiSweepline.new()
+	voronoi_gen.generate(points, [0,1000,0,500])
+	
+	voronoi_gen.relax()
+	
+	# Create the random color map. Storing the color as arrays instead of Color() due to
+	# floating point inpresision when querying the lookup_diagram
+	var id : int = 0
+	for cell in voronoi_gen.cells:
+		var col : Array[int] = [rng.randi_range(0,255), rng.randi_range(0,255), rng.randi_range(0,255)]
+		color_map[col] = voronoi_gen.cells[cell][0]
+		color_lookup_dict[col] = [id, cell]
+		id += 1
+	
+	
+	# Save the map as an svg
+	lookup_diagram = Image.new()
+	lookup_diagram.decompress()
+	lookup_diagram.load_svg_from_string(voronoi_gen.generate_svg_string(color_map))
+	
+	
+	# Set the texture/map shader
+	texture = ImageTexture.create_from_image(lookup_diagram)
+	
+	
+	# Setup the map
+	astar = AStar2D.new()
+	voronoi_gen.generate_astar(astar)
+
+
+func dataAtPos(mouse_pos : Vector2) -> Array:	# returns the cell id and center at the clicked position
+	var color_code = lookup_diagram.get_pixel(mouse_pos.x, mouse_pos.y)
+	color_code = [color_code.r8, color_code.g8, color_code.b8]	# turn into rgb array as the base float format is inconsistant
+	if color_code == [0,0,0]:
+		return [-1]
+	return color_lookup_dict[color_code]
+"
+
+[node name="walking_root" type="Node2D"]
+
+[node name="Volornoi" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_jqire")
+centered = false
+script = SubResource("GDScript_oy1fr")
+
+[node name="unit" parent="Volornoi" instance=ExtResource("1_goihe")]
+
+[node name="Camera2D" parent="." instance=ExtResource("2_ti2xv")]
