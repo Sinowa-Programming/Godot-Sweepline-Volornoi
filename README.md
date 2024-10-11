@@ -17,7 +17,7 @@ You can generate a volornoi diagram through code using this plugin.
 
 See full documentation [here](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/wiki/Scripting-Docs).
 
-See [Example folder]([https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/2.0.0/Example/example.tscn](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/tree/2.0.0(-Alpha-)/Example)) for runnable examples.
+See Example folder for runnable examples.
 
 * To call the volornoi algorithm:
 ```GDScript
