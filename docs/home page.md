@@ -1,6 +1,6 @@
 # Godot Sweepline Voronoi Addon Wiki
 ## Docs
-#### [Link to Documentation on using addon though scripting](doc/link)
+#### [Link to Documentation on using addon though scripting](https://github.com/Sinowa-Programming/Godot-Sweepline-Volornoi/blob/2.0.0/docs/scripting%20docs.md)
 
 ## FAQ
 * Q: **I have a set of points that are not generating correctly. What should I do?**
